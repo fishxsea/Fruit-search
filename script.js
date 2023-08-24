@@ -3,20 +3,33 @@ const suggestions = document.querySelector('.suggestions ul');
 
 const fruit = ['Apple', 'Apricot', 'Avocado 🥑', 'Banana', 'Bilberry', 'Blackberry', 'Blackcurrant', 'Blueberry', 'Boysenberry', 'Currant', 'Cherry', 'Coconut', 'Cranberry', 'Cucumber', 'Custard apple', 'Damson', 'Date', 'Dragonfruit', 'Durian', 'Elderberry', 'Feijoa', 'Fig', 'Gooseberry', 'Grape', 'Raisin', 'Grapefruit', 'Guava', 'Honeyberry', 'Huckleberry', 'Jabuticaba', 'Jackfruit', 'Jambul', 'Juniper berry', 'Kiwifruit', 'Kumquat', 'Lemon', 'Lime', 'Loquat', 'Longan', 'Lychee', 'Mango', 'Mangosteen', 'Marionberry', 'Melon', 'Cantaloupe', 'Honeydew', 'Watermelon', 'Miracle fruit', 'Mulberry', 'Nectarine', 'Nance', 'Olive', 'Orange', 'Clementine', 'Mandarine', 'Tangerine', 'Papaya', 'Passionfruit', 'Peach', 'Pear', 'Persimmon', 'Plantain', 'Plum', 'Pineapple', 'Pomegranate', 'Pomelo', 'Quince', 'Raspberry', 'Salmonberry', 'Rambutan', 'Redcurrant', 'Salak', 'Satsuma', 'Soursop', 'Star fruit', 'Strawberry', 'Tamarillo', 'Tamarind', 'Yuzu'];
 
-function search(str) {
+function customSort(a, b, alpha) {
+    for (let i = 0; i < Math.min(a.length, b.length); i++) {
+        const aIndex = alpha.indexOf(a[i]);
+        const bIndex = alpha.indexOf(b[i]);
+        
+        if (aIndex !== bIndex) {
+            return aIndex - bIndex;
+        }
+    }
+    return a.length - b.length;
+}
+
+function search(str, searchAmnt) {
 	let results = [];
-	let count = 0
 	for (i of str) {
-		if (i.toLowerCase().includes(input.value.toLowerCase()) && input.value.length === 1 && count < 8){
-			results.push(i)
-			count += 1
-		}
-		if (i.toLowerCase().includes(input.value.toLowerCase()) && input.value.length > 1){
+
+		if (i.toLowerCase().includes(input.value.toLowerCase())){
 			results.push(i)
 		} 
-	}
-	if (input.value === ''){
-		results = []
+
+		if (results.length === searchAmnt){
+			return results
+		}
+		
+		if (input.value === ''){
+			results = []
+		}
 	}
 	return results;
 }
@@ -31,7 +44,7 @@ function showSuggestions(results) {
 }
 
 function searchHandler(e) {
-	showSuggestions(search(fruit))
+	showSuggestions(search(fruit, 8))
 }
 
 
